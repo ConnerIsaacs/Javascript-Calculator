@@ -1,0 +1,172 @@
+<style>
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+body,html{
+  height:100%;
+  width:100%;
+  background-color:gray;
+}
+#container{
+  height:575px;
+  width:400px;
+  box-shadow:0px 0px 50px;
+  position:absolute;
+  left:50%;
+  transform:translate(-50%);
+  border-radius:20px;
+  
+}
+.linear-gradient{
+    /* The old syntax, deprecated and prefixed, for old browsers */
+    background: -prefix-linear-gradient(left top, #8083ac, black);
+
+    /* The new syntax needed by standard-compliant browsers (Opera 12.1,
+     IE 10, Firefox 16, Chrome 26, Safari 6.1), without prefix */
+    background: linear-gradient(to bottom right, #8083ac, #5053ac);
+}
+
+#AC,#CE{
+  background-color:#9F0000;
+}
+#equation{
+  float:right;
+  font-size:40px;
+}
+#AC:active,#CE:active{
+  background-color:#6F0000;
+}
+#screen{
+  line-height:0px;
+  height:60px;
+  width:300px;
+  background-color:#c3c2ab;
+  margin:auto;
+  margin-top:20px;
+  border:3px solid #a4b39d;
+}
+#buttons{
+  width:300px;
+  margin:auto;
+  margin-top:20px;
+}
+#buttons:hover{
+  cursor:pointer;
+}
+.button{
+  width:60px;
+  height:60px;
+  background-color:#414141;
+  float:left;
+  margin-top:10px;
+  line-height:0px;
+  border-radius:10px;
+  color:white;
+  box-shadow:0px 1px 5px black;
+}
+.button:active{
+  background-color:#212121;
+}
+.right{
+  float:right;
+}
+.middle{
+  margin-left:20px;
+}
+p{
+  font-family:Share Tech Mono;
+  font-weight:900;
+  font-size:30px;
+  
+}
+#equals{
+  height:130px;
+  line-height:60px;
+}
+#zero{
+  width:140px;
+}
+</style>
+
+<div id ="container" class="linear-gradient">
+  <center>
+    
+    
+    <p>Javascript Calculator</p>
+    <div id="screen"><p id="equation">0</p></div>
+    <div id="buttons">
+      <div id="AC" class="button"><p>AC</p></div>
+      <div id="CE" class="button middle"><p>CE</p></div>
+      <div id="divide" class="button middle operation"><p>&divide;</p></div>
+      <div id="multiply" class="button right operation"><p>x</div>
+      <div id="seven" class="button number"><p>7</p></div>
+      <div id="eight" class="button middle number"><p>8</p></div>
+      <div id="nine" class="button middle number"><p>9</p></div>
+      <div id="minus" class="button right operation"><p>-</p></div>
+      <div id="four" class="button"><p>4</p></div>
+      <div id="five" class="button middle"><p>5</p></div>
+      <div id="six" class="button middle"><p>6</p></div>
+      <div id="plus" class="button right operation"><p>+</p></div>
+      <div id="one" class="button"><p>1</p></div>
+      <div id="two" class="button middle"><p>2</p></div>
+      <div id="three" class="button middle"><p>3</p></div>
+      <div id="equals" class="button right"><p>=</p></div>
+      <div id="zero" class="button"><p>0</p></div>
+      <div id="decimal" class="button middle"><p>.</p></div>
+    </div>
+    
+    
+  </center>
+</div>
+<script>
+var equation = "";
+var buttons = document.getElementsByClassName("button");
+var screen = document.getElementById("equation");
+for(var i = 0;i<buttons.length;i++){
+	buttons[i].addEventListener("click", click);
+}
+
+function click(){
+	if(screen.innerHTML == "Infinity" || screen.innerHTML == "Invalid Entry"){equation = "";}
+	if(equation.length > 13){equation = "";}
+	var x = this.getElementsByTagName("p")[0].innerHTML;
+	if(x != "AC" && x != "CE" && x != "="){
+		var m = equation.charAt(equation.length-1);
+		if(x =="x" || x == "÷" || x =="+" || x =="-"){
+			if(equation == "" || m == "x" || m =="+" || m == "-" || m == "÷"){return;}
+			else{equation += x;}
+		}
+		else{
+			equation += x;
+		}
+		
+	}
+	else if(x == "AC"){
+		equation = "";
+	}
+
+	else if(x == "CE"){
+		if(equation.length > 0){
+			equation = equation.substring(0,equation.length-1);
+		}
+	}
+	if(x == "="){
+		var lastChar = equation.charAt(equation.length-1);
+		if(lastChar == "*" || lastChar == "/" || lastChar == "+" || lastChar == "-" ){
+			equation = "";
+			screen.innerHTML = "Invalid Entry";
+			return;
+		}
+		equation = equation.replace(/÷/g,"/");
+		equation = equation.replace(/x/g,"*");
+		equation = eval(equation).toString();
+		var l = equation;
+		
+		if(equation.length > 13){equation=Math.round(l * 100) / 100;}
+	
+	}
+	if(equation == ""){screen.innerHTML = "0";}
+	else{
+		screen.innerHTML = equation;
+	}
+}
+
+</script>
